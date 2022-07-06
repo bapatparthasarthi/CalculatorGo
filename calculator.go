@@ -17,10 +17,14 @@ func main() {
 	} else if len(args) > 2 {
 		var result float64
 		var error string
-		if args[1] == "add" {
-			result, error = addAll(args[2:])
+		var operation = args[1]
+		var argsWithoutOperation = args[2:]
+		if operation == "add" {
+			result, error = addAll(argsWithoutOperation)
+		} else if operation == "subtract" {
+			result, error = subtractAll(argsWithoutOperation)
 		} else {
-			result, error = subtractAll(args[2:])
+			result, error = multiplyAll(argsWithoutOperation)
 		}
 		if error == "error" {
 			return
@@ -72,6 +76,19 @@ func subtractAll(numArray []string) (total float64, error string) {
 		} else {
 			result -= num
 		}
+	}
+	return result, ""
+}
+
+func multiplyAll(numArray []string) (total float64, error string) {
+	var result = 1.0
+	for _, numStr := range numArray {
+		num, numErr := strconv.ParseFloat(numStr, 64)
+		if numErr != nil {
+			fmt.Println("Bad Argument: " + numStr)
+			return 0, "error"
+		}
+		result *= num
 	}
 	return result, ""
 }
