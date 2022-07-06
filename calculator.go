@@ -15,11 +15,17 @@ func main() {
 		fmt.Println("One or more arguments missing")
 		return
 	} else if len(args) > 2 {
-		var total, error = addAll(args[1:])
+		var result float64
+		var error string
+		if args[1] == "add" {
+			result, error = addAll(args[2:])
+		} else {
+			result, error = subtractAll(args[2:])
+		}
 		if error == "error" {
 			return
 		} else {
-			fmt.Println("Sum of all numbers: " + strconv.Itoa(total))
+			fmt.Println("Sum of all numbers: ", result)
 			return
 		}
 	}
@@ -40,17 +46,33 @@ func main() {
 	fmt.Println("Addition of two numbers: ", sum)
 }
 
-func addAll(numArray []string) (total int, error string) {
-	var sum = 0
+func addAll(numArray []string) (total float64, error string) {
+	var result = 0.0
 	for _, numStr := range numArray {
-		num, numErr := strconv.Atoi(numStr)
+		num, numErr := strconv.ParseFloat(numStr, 64)
 		if numErr != nil {
 			fmt.Println("Bad Argument: " + numStr)
 			return 0, "error"
 		}
-		sum += num
+		result += num
 	}
-	return sum, ""
+	return result, ""
+}
+
+func subtractAll(numArray []string) (total float64, error string) {
+	var result float64
+	for idx, numStr := range numArray {
+		num, numErr := strconv.ParseFloat(numStr, 64)
+		if numErr != nil {
+			fmt.Println("Bad Argument: " + numStr)
+			return 0.0, "error"
+		}
+		if idx == 0 {
+			result = num
+		}
+		result = result - num
+	}
+	return result, ""
 }
 
 func parse(parseStr string) {
