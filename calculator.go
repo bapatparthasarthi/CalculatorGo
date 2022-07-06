@@ -25,7 +25,7 @@ func main() {
 		if error == "error" {
 			return
 		} else {
-			fmt.Println("Sum of all numbers: ", result)
+			fmt.Println("Result: ", result)
 			return
 		}
 	}
@@ -69,8 +69,9 @@ func subtractAll(numArray []string) (total float64, error string) {
 		}
 		if idx == 0 {
 			result = num
+		} else {
+			result -= num
 		}
-		result = result - num
 	}
 	return result, ""
 }
